@@ -1,30 +1,32 @@
+
 const Sequelize = require('sequelize');
 const sequelize = require('../util/database')
 
-const User = sequelize.define('expenceData',{
-    id:{
-        type: Sequelize.INTEGER,
-        autoIncrement: true,
-        primaryKey: true,
-        allowNull: false
+const User = sequelize.define('expence-tracker',{
+    id: {
+        type:Sequelize.INTEGER,
+        autoIncrement:true,
+        primaryKey:true,
+        unique:true,
+        allowNull:false
+    },
+    name:{
+        type:Sequelize.STRING,
+        allowNull:false
 
     },
-    Name: {
+    expence:{
+        type:Sequelize.INTEGER,
+        allowNull:false
+    },
+    item:{
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull:false
     },
-    Exp:{
-        type:Sequelize.NUMBER,
-        allowNull: false
-    },
-    Item:{
+    category:{
         type:Sequelize.STRING,
-        allowNull: false
-    },
-    Category:{
-        type:Sequelize.STRING,
-        allowNull: false
+        allowNull:false
     }
-});
+})
 
-module.exports = User
+module.exports = User;
