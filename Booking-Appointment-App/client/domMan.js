@@ -10,21 +10,23 @@ async function myFunc(event) {
 
         event.target.reset();
 
-        let myObj = {
+        const myObj = {
             name,
             email,
             phone,
             date
 
         }
-        if (name && phone && email) {
+        if (name && phone && email && date) {
             onScreenFunction(myObj);
             const postdata = await axios.post("http://localhost:3000/postdata", myObj)
-            
-
-            //onScreenFunction(myObj);
-            console.log("Data Create Success full");
-
+            try {
+                onScreenFunction(myObj);
+                console.log("Data Create Successfull");
+            }
+            catch (err) {
+                console.log(err.message);
+            }
         } else {
             alert('Enter All the things please');
         }
@@ -33,6 +35,8 @@ async function myFunc(event) {
         console.log(err);
     }
 }
+
+
 
 function onScreenFunction(myObj) {
     const ul = document.getElementById('users');
@@ -48,12 +52,17 @@ function onScreenFunction(myObj) {
 
     delBtn.onclick = async () => {
         try {
-            await axios.delete(`http://localhost:3000/deletedata/${myObj.id}`)
-            ul.removeChild(li);
+            const deletedData = await axios.delete(`http://localhost:3000/deletedata/${myObj.id}`)
+            try {
+                ul.removeChild(li);
+            }
+            catch (err) {
+                console.log(err.message);
+            }
 
         }
         catch (err) {
-            console.log(err)
+            console.log(err.message)
         }
     }
 
@@ -67,12 +76,16 @@ function onScreenFunction(myObj) {
             document.getElementById('phon').value = myObj.phone;
             document.getElementById('email').value = myObj.email;
 
-            await axios.delete(`http://localhost:3000/deletedata/${myObj.id}`)
-
-            ul.removeChild(li);
+            const deletedData = await axios.delete(`http://localhost:3000/deletedata/${myObj.id}`)
+            try {
+                ul.removeChild(li);
+            }
+            catch (err) {
+                console.log(err.message);
+            }
         }
         catch (err) {
-            console.log(err)
+            console.log(err.message)
         }
     }
     li.appendChild(delBtn);
@@ -80,6 +93,8 @@ function onScreenFunction(myObj) {
     ul.appendChild(li);
 
 }
+
+
 document.addEventListener('DOMContentLoaded', () => {
     axios.get("http://localhost:3000/getdata")
         .then((response) => {
@@ -90,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
         })
         .catch((err) => {
-            console.error(err)
+            console.error(err.message)
         })
 })
 
