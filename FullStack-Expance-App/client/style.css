@@ -16,6 +16,13 @@ ul {
   list-style: none;
 }
 
+label{
+  color:brown
+}
+input{
+  color: cadetblue;
+}
+
 ul li {
   padding: 5px;
   background: #f4f4f4;

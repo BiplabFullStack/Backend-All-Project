@@ -62,11 +62,49 @@ const deletedata =async(req, res, next)=>{
 }
 
 
+//Edit Data
+const editdata = (req, res, mext)=>{
+    const userId = req.params.id;
+    const editItem =  User.findByPk(userId)
+    .then(editItem =>{
+        editItem.name = req.body.name;
+        editItem.expence =req.body.expence;
+        editItem.item = req.body.item;
+        editItem.category = req.body.item;
+        return User.save()
+        .then(result=>{
+            console.log("Updated");
+        })
+        .catch(err => console.log(err))
+    })
+    .catch(err => console.log(err))
+    
+    // const userId = req.params.id;
+    // const editItem = await User.findByPk(userId);
+    // try{
+    //     editItem.name = req.body.name;
+    //     editItem.expence =req.body.expence;
+    //     editItem.item = req.body.item;
+    //     editItem.category = req.body.item;
+
+    //     const updatedItem = await User.save();
+    //     try{
+    //         res.status(200).send(updatedItem);
+    //     }
+    //     catch(err){
+    //         console.log(err.message);
+    //     }
+    // }
+    // catch(err){
+    //     console.log(err.message);
+    // }
+}
+
 //PAGE NOT FOUND
 const pageNotFound =(req, res, next)=>{
   res.status(404).send('<h1>Page Not Found</h1>')
 
 }
 
-module.exports ={ postAddProduct, getdata, deletedata, pageNotFound }
+module.exports ={ postAddProduct, getdata, deletedata, editdata, pageNotFound }
 

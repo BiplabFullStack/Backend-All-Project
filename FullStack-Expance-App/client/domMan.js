@@ -47,15 +47,17 @@ function onScreenFunction(myObj) {
     delBtn.value = 'Delete';
     delBtn.type = 'button';
     delBtn.style.backgroundColor = 'red'
+    
+    
 
     delBtn.onclick = async () => {
         const deletedItem = await axios.delete(`http://localhost:3000/deletedata/${myObj.id}`)
-            try{
-                ul.removeChild(li);
-            }
-            catch(err){
-                console.log(err.message);
-            } 
+        try {
+            ul.removeChild(li);
+        }
+        catch (err) {
+            console.log(err.message);
+        }
     }
 
     // Create Edit Button
@@ -64,29 +66,27 @@ function onScreenFunction(myObj) {
     editBtn.type = 'button';
     editBtn.style.backgroundColor = 'yellow'
     editBtn.onclick = async () => {
+        document.getElementById('name').value = myObj.name;
+        document.getElementById('expence').value = myObj.expence;
+        document.getElementById('item').value = myObj.item;
+        document.getElementById('category').value = myObj.category;
+        const deletedItem = await axios.delete(`http://localhost:3000/deletedata/${myObj.id}`)
         try {
-            document.getElementById('name').value = myObj.name;
-            document.getElementById('expence').value = myObj.expence;
-            document.getElementById('item').value = myObj.item;
-            document.getElementById('category').value = myObj.category;
-
-            const deletedItem = await axios.delete(`http://localhost:3000/deletedata/${myObj.id}`)
-            try{
-                ul.removeChild(li);
-            }
-            catch(err){
-                console.log(err.message);
-            }    
+            ul.removeChild(li);
         }
         catch (err) {
-            console.log(err.message)
+            console.log(err.message);
         }
+
+
     }
     li.appendChild(delBtn);
     li.appendChild(editBtn);
     ul.appendChild(li);
 
 }
+
+
 document.addEventListener('DOMContentLoaded', () => {
     axios.get("http://localhost:3000/getdata")
         .then((response) => {
@@ -101,3 +101,19 @@ document.addEventListener('DOMContentLoaded', () => {
         })
 })
 
+
+
+
+// function totalexp(total){
+//     let totalexp=document.getElementById('total');
+//     // totalexp.textContent="total expendeture:"+total;
+//     var totalexpenditure=0;
+
+//     for(let i=0;i<total.data.length;i++){
+//         totalexpenditure+=total.data[i].exp;
+//     }
+
+//     totalexp.textContent="total expendeture:"+totalexpenditure;
+
+
+// }
