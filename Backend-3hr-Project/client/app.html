@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>candi shop</title>
+</head>
+
+<body>
+    <header style="color: red;">Candi Shop</header>
+    <section class="container">
+        <form id="my-form" onsubmit="myFunc(event)">
+            <h2 style="color: brown;">users form</h2>`
+
+
+            <div>
+                <label for="expence">Expence</label>
+                <input type="number" id="expence" name="expence" placeholder="Enter expence number">
+            </div>
+            <div>
+                <label for="describtion">Describtion</label>
+                <input type="text" id="describtion" name="describtion" placeholder="Enter describtion">
+            </div>
+            <div>
+                <label for="category">category</label>
+                <select name="category" id="category">
+                    <option value="Table 1">Table 1</option>
+                    <option value="Table 2">Table 2</option>
+                    <option value="Table 3">Table 3</option>
+                </select>
+
+            </div>
+            <input class="btn" type="submit" value="submit">
+        </form>
+        <h1>Orders</h1>
+        <h4 style="color: Olive">Table 1</h4>
+        <ul id="listOnScreen1"></ul>
+        <h4 style="color: Maroon;">Table 2</h4>
+        <ul id="listOnScreen2"></ul>
+        <h4 style="color: blue;">Table 3</h4>
+        <ul id="listOnScreen3">
+    </section>
+    <script src="domMan.js"></script>
+</body>
+
+</html>
