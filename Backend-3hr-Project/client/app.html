@@ -9,27 +9,27 @@
         integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="style.css">
-    <title>candi shop</title>
+    <title>Hotel Waiter's Life</title>
 </head>
 
 <body>
-    <header style="color: red;">Candi Shop</header>
+    <header style="color: red;">Hotel Waiter's Life</header>
     <section class="container">
         <form id="my-form" onsubmit="myFunc(event)">
             <h2 style="color: brown;">users form</h2>`
 
 
             <div>
-                <label for="expence">Expence</label>
-                <input type="number" id="expence" name="expence" placeholder="Enter expence number">
+                <label for="price">Choose Price</label>
+                <input type="number" id="price" name="price" placeholder="Enter Disk Price">
             </div>
             <div>
-                <label for="describtion">Describtion</label>
-                <input type="text" id="describtion" name="describtion" placeholder="Enter describtion">
+                <label for="disk">Choose Disk</label>
+                <input type="text" id="disk" name="disk" placeholder="Enter Disk name">
             </div>
             <div>
-                <label for="category">category</label>
-                <select name="category" id="category">
+                <label for="table">Choose a Table</label>
+                <select name="table" id="table">
                     <option value="Table 1">Table 1</option>
                     <option value="Table 2">Table 2</option>
                     <option value="Table 3">Table 3</option>
@@ -38,6 +38,8 @@
             </div>
             <input class="btn" type="submit" value="submit">
         </form>
+        <br>
+        <hr style="border-color: brown;">
         <h1>Orders</h1>
         <h4 style="color: Olive">Table 1</h4>
         <ul id="listOnScreen1"></ul>

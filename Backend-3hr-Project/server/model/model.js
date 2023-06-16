@@ -2,7 +2,7 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../util/database')
 
-const User = sequelize.define('hotel-management',{
+const User = sequelize.define('hotel-waiter',{
     id: {
         type:Sequelize.INTEGER,
         autoIncrement:true,
@@ -11,15 +11,15 @@ const User = sequelize.define('hotel-management',{
         allowNull:false
     },
 
-    expence:{
+    price:{
         type:Sequelize.INTEGER,
         allowNull:false
     },
-    describtion:{
+    disk:{
         type: Sequelize.STRING,
         allowNull:false
     },
-    category:{
+    table:{
         type:Sequelize.STRING,
         allowNull:false
     }

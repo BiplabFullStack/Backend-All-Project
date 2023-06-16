@@ -3,120 +3,137 @@ const { where } = require('sequelize');
 const User = require('../model/model')
 
 
-// Data store into the Database
-const postAddProduct =(req, res, next)=>{
-    const {expence, describtion, category} = req.body; 
+// Data store into the Database Using Promise
+const postAddProduct = (req, res, next) => {
+    const { price, disk, table } = req.body;
 
     User.create({
-        expence:expence,
-        describtion:describtion,
-        category:category
+        price: price,
+        disk: disk,
+        table: table
     })
-    .then((result)=>{
-        res.status(201).send({status:true, msg: "Data Successfully Created "})
-        console.log(`Create Successfull  Exp: ${expence} - describtion: ${describtion} - Category: ${category}`);
-    })
-    .catch((err)=>{
-        res.status(500).send({status: false, Error: err.message});
-        console.log(err.message);
-    })
+        .then((result) => {
+            res.status(201).send({ status: true, msg: "Data Successfully Created " })
+            console.log(`Create Successfull  Price: ${price} - Disk: ${disk} - Table: ${table}`);
+        })
+        .catch((err) => {
+            res.status(500).send({ status: false, Error: err.message });
+            console.log(err.message);
+        })
 }
 
-//Get All Data 
-const getdata =async(req, res, next)=>{
-    const allData = await User.findAll();
-    try{
-        res.json(allData);
+// Data store into the Database Using Try Catch
+
+/*
+const postAddProduct = async (req, res, next) => {
+    try {
+        const { price, disk, table } = req.body;
+        const data = await User.create({
+            price: price,
+            disk: disk,
+            table: table
+        })
+        try{
+            res.status(201).send({status:true, msg: "Data Successfully Created "})
+         console.log(`Create Successfull  Price: ${price} - Disk: ${disk} - Table: ${table}`);
+        }
+        catch(err){
+            console.log(err.message);
+        }
+
     }
     catch(err){
-        res.status(500).send({status: false, Error: err.message})
+        console.log(err.message);
     }
 }
 
-//Delete Data
-const deletedata =(req, res, next)=>{
+*/
+
+//Get All Data 
+const getdata = async (req, res, next) => {
+    const allData = await User.findAll({raw: true}); //Get Only raw Data
+    console.log(allData);
+    try {
+        res.json(allData);
+    }
+    catch (err) {
+        res.status(500).send({ status: false, Error: err.message })
+    }
+}
+
+
+//Delete Data Using Promise
+const deletedata = (req, res, next) => {
     const userId = req.params.id;
     User.destroy({
-        where:{
-            id:userId
+        where: {
+            id: userId
         }
     })
-    .then((result)=>{
-        res.status(200).send({status: true, msg : "Deleted Successfully"})
-    })
-    .catch(err => console.log(err.message))
+        .then((result) => {
+            res.status(200).send({ status: true, msg: "Deleted Successfully" })
+        })
+        .catch(err => console.log(err.message))
 }
+
+
+
+
+//Delete Data Using Try Catch
+/*
+const deletedata = async (req, res, next) => {
+    try {
+        const userId = req.params.id;
+         await User.destroy({
+            where: {
+                id: userId
+            }
+        })
+        try{
+            res.status(200).send({ status: true, msg: "Deleted Successfully" })
+        }
+        catch(err){
+            console.log(err.message)
+        }
+       
+    }
+    
+    catch(err) {
+        console.log(err.message)
+    }
+}
+
+*/
 
 
 
 // Another Approach : 
-    // const userId = req.params.id;
-    // const deleteId = await User.findByPk(userId);
-    // try{
-    //     await deleteId.destroy();
-    //     try{
-    //         res.status(200).send({status: true, msg : "Deleted Successfully"})
-    //     }
-    //     catch(err){
-    //         res.status(500).send({status: false, Error : err.message})
-    //         console.log(err.message);
-    //     }
-    // }
-    // catch(err){
-    //     console.log(err.message);
-    // }
-    //}
+// const userId = req.params.id;
+// const deleteId = await User.findByPk(userId);
+// try{
+//     await deleteId.destroy();
+//     try{
+//         res.status(200).send({status: true, msg : "Deleted Successfully"})
+//     }
+//     catch(err){
+//         res.status(500).send({status: false, Error : err.message})
+//         console.log(err.message);
+//     }
+// }
+// catch(err){
+//     console.log(err.message);
+// }
+//}
 
 
-//Edit Data
-const editdata = (req, res, mext)=>{
-    const {expence, describtion, category} = req.body; 
-    console.log("New "+expence);
-    const userId = req.params.id;
-    console.log("Hiiii");
-    User.update({
-        expence: expence,
-        describtion: describtion,
-        category : category
-    },
-    {
-        where:{
-            id:userId,
-        },
-    }
-   
-    )
-    .then((result)=>{
-        console.log("Update Successfull");
-    })
-    .catch(err => console.log(err.message))
-    
-    // const userId = req.params.id;
-    // const editItem = await User.findByPk(userId);
-    // try{
-    //     editItem.name = req.body.name;
-    //     editItem.expence =req.body.expence;
-    //     editItem.item = req.body.item;
-    //     editItem.category = req.body.item;
 
-    //     const updatedItem = await User.save();
-    //     try{
-    //         res.status(200).send(updatedItem);
-    //     }
-    //     catch(err){
-    //         console.log(err.message);
-    //     }
-    // }
-    // catch(err){
-    //     console.log(err.message);
-    // }
-}
+
 
 //PAGE NOT FOUND
-const pageNotFound =(req, res, next)=>{
-  res.status(404).send('<h1>Page Not Found</h1>')
+const pageNotFound = (req, res, next) => {
+    res.status(404).send('<h1>Page Not Found</h1>')
 
 }
 
-module.exports ={ postAddProduct, getdata, deletedata, editdata, pageNotFound }
+module.exports = { postAddProduct, getdata, deletedata, pageNotFound }
 
