@@ -13,7 +13,18 @@ function isValidString(string) {
 
 const postSignUp = async(req, res, next)=>{
     const {name, email, password} = req.body;
-    if(isValidString(name) || isValidString(email) || isValidString(password)){
+    const data = await User.findOne({
+        where:{
+            email:email
+        }
+    })
+
+    if(data){
+        console.log(chalk.red("Email Id Already exist"));
+        return res.status(400).send({ status: false, msg: "EmailId Is Already Exist In DB" })
+        
+    }
+    else if(isValidString(name) || isValidString(email) || isValidString(password)){
         res.status(400).json({err: 'Please fill properlly in your form'})
         console.log(chalk.red.inverse('Please fill properlly in your form'));
     }
