@@ -17,19 +17,18 @@ async function login(event){
             if(data.status === 200){
                 alert("login Successfully")
             }
-            else if(data.status === 400){
-                console.log("Wrong email and password");
-                alert("Wrong email and password")
-            }
             else{
-                alert("Something is Wrong")
+                throw new Error(data.data.message)
             }
         }
         catch(err){
-            console.log(err.message);
+            console.log(JSON.stringify(err));
+            document.body.innerHTML += `<div style ="color: red;">${err.message}</div>`
         }
     }
     catch(err){
-        console.log(err.message);
+ 
+        console.log(JSON.stringify(err));
+            document.body.innerHTML += `<div style ="color: red;">${err.message}</div>`
     }
 }
