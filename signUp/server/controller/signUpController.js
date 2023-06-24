@@ -17,12 +17,7 @@ const postSignUp = async (req, res, next) => {
             .send({ status: false, err: "name is require" })
     }
 
-    if (findName) {
-        console.log("Name already exist");
-        return res
-            .status(400)
-            .send({ status: false, err: "Name already exist" })
-    }
+   
 
     if (!email || email.trim().length == 0) {
         console.log("email is require");
