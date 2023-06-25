@@ -10,22 +10,20 @@ async function login(event){
             email,
             password
         }
+        if(email && password){
 
         const data = await axios.post('http://localhost:3000/login',obj)
-        try{
-            console.log(data);
             if(data.status === 200){
                 alert("login Successfully")
             }
             else{
                 throw new Error(data.data.message)
             }
+        }else{
+            alert("Please fill all the Options");
         }
-        catch(err){
-            console.log(JSON.stringify(err));
-            document.body.innerHTML += `<div style ="color: red;">${err.message}</div>`
         }
-    }
+   
     catch(err){
  
         console.log(JSON.stringify(err));

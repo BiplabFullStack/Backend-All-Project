@@ -20,21 +20,21 @@ const login = async (req, res, next) => {
         if(findData == null && findpassword == null){
             console.log(chalk.red("Wrong email and password"));
             return res
-                .status(400)
+                .status(404)
                 .send({ status: false, msg: "Wrong email and password" })
         
         }
         else if(findData == null && password == findpassword.dataValues.password){
             console.log(chalk.red("Wrong email"));
             return res
-                .status(400)
+                .status(404)
                 .send({ status: false, msg: "Wrong email" })
         
         }
         else if(findpassword == null && email == findData.dataValues.email){
             console.log(chalk.red("Wrong password"));
             return res
-                .status(400)
+                .status(401)
                 .send({ status: false, msg: "Wrong password" })
         }
         
