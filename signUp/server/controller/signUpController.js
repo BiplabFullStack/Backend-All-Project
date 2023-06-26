@@ -1,6 +1,59 @@
 
 const User = require('../model/signUpModel')
 const chalk = require('chalk')
+const bcrypt = require('bcrypt')
+const { isInvalid } = require('../validation/validator')
+
+const postSignUp = async(req, res)=>{
+    try{
+        const { name, email, password } = req.body;
+        if(isInvalid(name) || isInvalid(email) || isInvalid(password)){
+            console.log(chalk.red('Please fill all the input '));
+            return res
+            .status(400)
+            .json({status: false, err: "Bad parameter Something is missing"})
+        }
+        bcrypt.hash(password, 10 , async(err, hash)=>{
+            await User.create({name, email, password: hash})
+            res.status(201)
+            .json({msg:'Successfully Created New User'})
+            console.log(chalk.cyan(`Yours Details  Name: ${name} - Email: ${email} - Password : ${password}`));
+        })
+    }
+    catch(err){
+        res.status(500)
+        .json(err)
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 
 const postSignUp = async (req, res, next) => {
     const { name, email, password } = req.body;
@@ -63,8 +116,8 @@ const postSignUp = async (req, res, next) => {
         console.log(chalk.red(err.message));
     }
 }
+*/
 
-``
 //PAGE NOT FOUND
 const pageNotFound = (req, res, next) => {
     res.status(404).send('<h1>Page Not Found</h1>')

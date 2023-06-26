@@ -19,7 +19,7 @@ const User = sequelize.define('signUp',{
     allowNull: false
    },
    password:{
-    type:Sequelize.INTEGER,
+    type:Sequelize.STRING,
     allowNull:false
    }
 })

@@ -12,6 +12,10 @@ async function myFunc(event) {
             email,
             password
         }
+
+
+
+
         // if (name && email && password) {
 
             const postdata = await axios.post("http://localhost:3000/postdata", myObj)
