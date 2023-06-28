@@ -15,8 +15,8 @@ async function myWebFunc(event) {
 
         }
         if (itemName && expence && item && category) {
-
-            const postdata = await axios.post("http://localhost:3000/postwebdata", myObj)
+            const token = localStorage.getItem('token')
+            const postdata = await axios.post("http://localhost:3000/postwebdata", myObj, {headers:{"Authorization": token}})
             
                 onScreenFunction(myObj);
                 console.log(`ItemName : ${itemName} -  Expence : ${expence} - Item : ${item} - Category : ${category}`);
@@ -57,7 +57,8 @@ function onScreenFunction(myObj) {
 
     delBtn.onclick = async () => {
         if(confirm("Are you sure, want to cancel this expence ?")){
-        const deletedItem = await axios.delete(`http://localhost:3000/deletedata/${myObj.id}`)
+            const token = localStorage.getItem('token')
+        const deletedItem = await axios.delete(`http://localhost:3000/deletedata/${myObj.id}`,{headers:{"Authorization": token}})
             ul.removeChild(li);
         }
         else{
