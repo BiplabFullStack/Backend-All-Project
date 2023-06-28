@@ -1,7 +1,13 @@
 const User = require('../Model/signUpModel')
 const bcrypt = require('bcrypt')
 const chalk = require('chalk')
+ const jwt=require('jsonwebtoken');
+// const env = require('dotenv').config();
 const { emailInValid, passwordInValid } = require('../Validation/validation')
+
+function generateAccessToken(id,name){
+    return jwt.sign({userId:id,name:name},'secretkey')
+}
 
 const loginUser = async (req, res) => {
     try{
@@ -22,7 +28,8 @@ const loginUser = async (req, res) => {
                 }
                 if(result){
                     res.status(200)
-                    .json({status:true, msg:'User Login Successfully'})
+                    .json({status:true, msg:'User Login Successfully',token:generateAccessToken(validUser[0].id,validUser[0].name)})
+                    
                     console.log(chalk.magenta("Login Successfully"));
                 }else{
                     res.status(400)

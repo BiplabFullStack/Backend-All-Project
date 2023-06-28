@@ -12,6 +12,7 @@ async function myLogInFunc(event) {
         const data = await axios.post('http://localhost:3000/login',myObj)
         if(data.status === 200){
             alert("Login Successfully")
+            localStorage.setItem('token',data.data.token)
             window.location.href = '../website/website.html';
         }
         else{

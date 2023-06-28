@@ -73,7 +73,8 @@ function onScreenFunction(myObj) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    axios.get("http://localhost:3000/getdata")
+    const token = localStorage.getItem('token')
+    axios.get("http://localhost:3000/getdata",{headers:{"Authorization": token}})
         .then((response) => {
             response.data.forEach((element) => {
                 onScreenFunction(element)

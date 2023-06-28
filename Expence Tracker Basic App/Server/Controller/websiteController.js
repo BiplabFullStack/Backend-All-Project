@@ -19,7 +19,8 @@ const { nameInValid, passwordInValid } = require('../Validation/validation')
             itemName,
             expence,
             item,
-            category
+            category,
+            
         })
             res.status(201)
             .json({status:true, msg: "Tracker Successfully Created "})
@@ -44,7 +45,7 @@ const { nameInValid, passwordInValid } = require('../Validation/validation')
 
 const getAllExpence = async (req, res, next) => {
     try {
-    const allData = await User.findAll({ raw: true }); //Get Only raw Data
+    const allData = await User.findAll({where:{signUpId: req.user.id}}); //Get Only raw Data
         res.json(allData);
     }
     catch (err) {
