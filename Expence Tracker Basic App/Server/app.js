@@ -13,11 +13,13 @@ const chalk = require('chalk')
 const websiteRouter = require('./Router/websiteRoute')
 const signUpRouter=require('./Router/signUpRouter')
 const loginRouter = require('./Router/signInRouter')
+const purchase = require('./Router/purchase')
 
 
 //--------------------------------------------------- Schema(Model) -------------------------------------------------------------
 const User = require('./Model/signUpModel')
 const Expence = require('./Model/websiteModel')
+const Order = require('./Model/purchase')
 
 
 //App
@@ -30,12 +32,16 @@ app.use(cors());
 app.use(signUpRouter)
 app.use(loginRouter)
 app.use(websiteRouter)
+app.use('/purchase',purchase)
 
 
 // -----------------------------------------------------  RelationShif ---------------------------------------------------------
 
 User.hasMany(Expence)
 Expence.belongsTo(User)
+
+User.hasMany(Order)
+Order.belongsTo(User)
 
 
 
