@@ -51,4 +51,22 @@ const loginUser = async (req, res) => {
     
 }
 
-module.exports.loginUser = loginUser;
+
+const premium = async (req, res, next) => {
+    try{
+        const userId = req.user;
+
+        const validPrimiumUser = await User.findOne({
+            id:userId
+        })
+        res.send(validPrimiumUser)
+    }
+    catch(err){
+        console.log(err.message);
+    }
+    
+
+
+}
+
+module.exports = { loginUser , premium };

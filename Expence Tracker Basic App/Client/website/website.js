@@ -124,11 +124,18 @@ document.getElementById('rzp-button1').onclick= async function (e){
 };
 
 
-
-
-
-
-
-
-
+document.addEventListener('DOMContentLoaded', () =>{
+    const token = localStorage.getItem('token')
+    axios.get("http://localhost:3000/premiumuser",{headers:{"Authorization": token}})
+.then((result) =>{
+    if(result.data.ispremium == true){
+        const form = document.getElementById("rzp-button1")
+        //form.style.visibility = 'hidden';
+        form.style.display ='none'
+    }
+})
+.catch((err)=>{
+    console.log(err.meessage);
+})
+})
 
