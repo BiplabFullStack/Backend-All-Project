@@ -41,11 +41,11 @@ const updatetransactionstatus=async(req,res,next)=>{
         if(!order){
             return res.status(404).json({ success: false, message: 'Order not found' });
         }
-        if(payment_id===null){
+        if(payment_id=== null){
             const promise1=await order.update({paymentid:payment_id,status:'FAILED'})
             const promise2 = await req.user.update({ispremium:false})
             Promise.all([promise1,promise2]).then(()=>{
-            return res.status(202).json({success:true,message:'transaction successfull'});
+            return res.status(202).json({success:false,message:'transaction'});
         }).catch(err=>{
             console.log(err)
             return res.status(500).json({ success: false, message: 'Transaction update failed' });

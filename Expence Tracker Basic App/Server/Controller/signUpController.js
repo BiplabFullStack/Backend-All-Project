@@ -57,4 +57,6 @@ const signUp = async (req, res) => {
 
 }
 
-module.exports.signUp = signUp;
+
+
+module.exports = {signUp};

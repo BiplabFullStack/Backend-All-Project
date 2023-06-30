@@ -5,4 +5,5 @@ const {signUp} = require('../Controller/signUpController')
 
 router.post('/postdata', signUp);
 
+
 module.exports = router;

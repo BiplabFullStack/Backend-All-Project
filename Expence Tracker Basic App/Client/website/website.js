@@ -84,6 +84,10 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch((err) => {
             console.log(err.message)
         })
+
+
+   
+   
 })
 
 
@@ -104,6 +108,9 @@ document.getElementById('rzp-button1').onclick= async function (e){
             },{headers:{'Authorization':token}})
 
             alert('you are now a premium user')
+            const form = document.getElementById("rzp-button1")
+            //form.style.visibility = 'hidden';
+            form.style.display ='none'
 
         }
     };

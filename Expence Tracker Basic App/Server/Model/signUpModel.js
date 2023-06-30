@@ -21,6 +21,9 @@ const User = sequelize.define('signUp',{
    password:{
     type:datatype.STRING,
     allowNull:false
+   },
+   ispremium:{
+    type:datatype.BOOLEAN
    }
 })
 
