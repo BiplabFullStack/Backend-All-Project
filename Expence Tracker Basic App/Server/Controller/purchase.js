@@ -3,6 +3,7 @@ const Rozarpay=require('razorpay');
 const Order=require('../Model/purchase');
 
 const env = require('dotenv').config();
+const { generateAccessToken } = require('../Controller/signInController')
 
 
 const purchasepremium=async(req,res,next)=>{
@@ -34,6 +35,8 @@ const purchasepremium=async(req,res,next)=>{
 
 const updatetransactionstatus=async(req,res,next)=>{
     try{
+        const userId = req.user.id;
+        const userName = req.user.name;
         const {payment_id,order_id}=req.body;
         console.log("on successfull state or not:",payment_id)
         console.log(payment_id,order_id)
@@ -54,7 +57,7 @@ const updatetransactionstatus=async(req,res,next)=>{
             const promise1=await order.update({paymentid:payment_id,status:'SUCCESSFUL'})
             const promise2 = await req.user.update({ispremium:true})
             Promise.all([promise1,promise2]).then(()=>{
-            return res.status(202).json({success:true,message:'transaction successfull'});
+            return res.status(202).json({success:true,message:'transaction successfull',token:generateAccessToken(userId,userName,true)});
         }).catch(err=>{
             console.log(err)
             return res.status(500).json({ success: false, message: 'Transaction update failed' });

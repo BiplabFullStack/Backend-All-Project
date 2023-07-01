@@ -20,6 +20,7 @@ async function mySignUpFunc(event) {
             if(postdata.status === 201){
                 alert("Successfully Create your Profile")
                 window.location.href = '../SignIn/signIn.html';
+                
             }
 
             else{

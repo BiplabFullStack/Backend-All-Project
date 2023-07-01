@@ -75,6 +75,7 @@ function onScreenFunction(myObj) {
 
 document.addEventListener('DOMContentLoaded', () => {
     const token = localStorage.getItem('token')
+
     axios.get("http://localhost:3000/getdata",{headers:{"Authorization": token}})
         .then((response) => {
             response.data.forEach((element) => {
@@ -86,8 +87,19 @@ document.addEventListener('DOMContentLoaded', () => {
         })
 
 
-   
-   
+        //Hide/Show 'Buy Premium' button and show the message
+        axios.get("http://localhost:3000/premiumuser",{headers:{"Authorization": token}})
+    .then((result) =>{
+        if(result.data.ispremium == true){
+            const form = document.getElementById("rzp-button1")
+            form.style.display ='none'
+            document.getElementById('message').innerHTML =`${result.data.name} ~ You are a premium member`
+        }
+    })
+    .catch((err)=>{
+        console.log(err.meessage);
+    })
+
 })
 
 
@@ -102,15 +114,16 @@ document.getElementById('rzp-button1').onclick= async function (e){
         "key":response.data.key_id,
         "order_id": response.data.order.id,
         "handler":async function (response){
-            await axios.post('http://localhost:3000/purchase/updatetransactionstatus',{
+            const result = await axios.post('http://localhost:3000/purchase/updatetransactionstatus',{
                 order_id:options.order_id,
                 payment_id:response.razorpay_payment_id,
             },{headers:{'Authorization':token}})
 
             alert('you are now a premium user')
             const form = document.getElementById("rzp-button1")
-            //form.style.visibility = 'hidden';
             form.style.display ='none'
+            document.getElementById('message').innerHTML =`<h5>You are a premium user</h5>`
+            localStorage.setItem('token',result.data.token)
 
         }
     };
@@ -123,19 +136,4 @@ document.getElementById('rzp-button1').onclick= async function (e){
     });
 };
 
-
-document.addEventListener('DOMContentLoaded', () =>{
-    const token = localStorage.getItem('token')
-    axios.get("http://localhost:3000/premiumuser",{headers:{"Authorization": token}})
-.then((result) =>{
-    if(result.data.ispremium == true){
-        const form = document.getElementById("rzp-button1")
-        //form.style.visibility = 'hidden';
-        form.style.display ='none'
-    }
-})
-.catch((err)=>{
-    console.log(err.meessage);
-})
-})
 

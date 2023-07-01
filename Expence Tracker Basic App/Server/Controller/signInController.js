@@ -5,8 +5,9 @@ const chalk = require('chalk')
 const env = require('dotenv').config();
 const { emailInValid, passwordInValid } = require('../Validation/validation')
 
-function generateAccessToken(id,name){
-    return jwt.sign({userId:id,name:name},process.env.secret)
+
+const generateAccessToken = (id,name,ispremium) => {
+    return jwt.sign({userId:id,name:name,ispremium},process.env.secret)
 }
 
 const loginUser = async (req, res) => {
@@ -54,12 +55,19 @@ const loginUser = async (req, res) => {
 
 const premium = async (req, res, next) => {
     try{
-        const userId = req.user;
+        const userId = req.user.id;
 
         const validPrimiumUser = await User.findOne({
-            id:userId
+            where:{
+                id:userId
+            }
         })
-        res.send(validPrimiumUser)
+        if(validPrimiumUser){
+            return res
+            .status(200)
+            .send(validPrimiumUser)
+        }
+        
     }
     catch(err){
         console.log(err.message);
@@ -69,4 +77,4 @@ const premium = async (req, res, next) => {
 
 }
 
-module.exports = { loginUser , premium };
+module.exports = { loginUser , premium , generateAccessToken };
