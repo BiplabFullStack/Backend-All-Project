@@ -24,6 +24,10 @@ const User = sequelize.define('signUp',{
    },
    ispremium:{
     type:datatype.BOOLEAN
+   },
+   totalexpence:{
+    type:datatype.INTEGER,
+    defaultValue:0
    }
 })
 
