@@ -171,9 +171,12 @@ async function premiumfeature (result){
         const userleaderboardArray = await axios.get('http://localhost:3000/premium/leaderboard',{headers:{'Authorization':token}})
 
          const leaderboardElement = document.getElementById('leaderboard')
+         leaderboardElement.innerHTML = '<h2 style="color:red">Leader Board</h2>'
         userleaderboardArray.data.forEach((ele)=> {
-            leaderboardElement.innerHTML = `<li>name : ${ele.name} - TotalExpence : ${ele.totalexpence}</li>`
+            leaderboardElement.innerHTML += `<li style="color:yellow">Name : ${ele.name} - TotalExpence : ${ele.totalexpence}</li>`
         })
+        leaderboardbutton.style.display ='none'
+        
     }
     ispremium.appendChild(leaderboardbutton)
 }
