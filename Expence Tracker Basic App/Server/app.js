@@ -14,6 +14,7 @@ const websiteRouter = require('./Router/websiteRoute')
 const signUpRouter=require('./Router/signUpRouter')
 const loginRouter = require('./Router/signInRouter')
 const purchase = require('./Router/purchase')
+const premiumUser = require('./Router/premiunuserRouter')
 
 
 //--------------------------------------------------- Schema(Model) -------------------------------------------------------------
@@ -33,6 +34,7 @@ app.use(signUpRouter)
 app.use(loginRouter)
 app.use(websiteRouter)
 app.use('/purchase',purchase)
+app.use('/premium',premiumUser)
 
 
 // -----------------------------------------------------  RelationShif ---------------------------------------------------------

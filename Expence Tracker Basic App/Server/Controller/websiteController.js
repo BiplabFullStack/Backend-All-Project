@@ -115,6 +115,3 @@ const deleteExpence = async (req, res, next) => {
 
 module.exports = { postAddExpence, getAllExpence, deleteExpence }
 
-
-
-

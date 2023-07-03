@@ -1,5 +1,3 @@
-
-
 async function myWebFunc(event) {
     try {
         event.preventDefault();
@@ -21,6 +19,7 @@ async function myWebFunc(event) {
             const postdata = await axios.post("http://localhost:3000/postwebdata", myObj, {headers:{"Authorization": token}})
             
                 onScreenFunction(myObj);
+                
                 console.log(`ItemName : ${itemName} -  Expence : ${expence} - Item : ${item} - Category : ${category}`);
 
         } else {
@@ -62,6 +61,7 @@ function onScreenFunction(myObj) {
             const token = localStorage.getItem('token')
         const deletedItem = await axios.delete(`http://localhost:3000/deletedata/${myObj.id}`,{headers:{"Authorization": token}})
             ul.removeChild(li);
+            
         }
         else{
             console.log("Nothing");
@@ -74,6 +74,22 @@ function onScreenFunction(myObj) {
     ul.appendChild(li);
 
 }
+
+document.addEventListener('DOMContentLoaded',() => {
+    const token = localStorage.getItem('token')
+    axios.get("http://localhost:3000/premiumuser",{headers:{"Authorization": token}})
+    .then((result) =>{
+        if(result.data.ispremium == true){
+            const form = document.getElementById("rzp-button1")
+            form.style.display ='none'
+            document.getElementById('ispremium').innerHTML =`${result.data.name} ~ You are a premium member    `
+            premiumfeature (result)
+        }
+    })
+    .catch((err)=>{
+        console.log(err.meessage);
+    })
+})
 
 document.addEventListener('DOMContentLoaded', () => {
     const token = localStorage.getItem('token')
@@ -88,19 +104,6 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log(err.message)
         })
 
-
-        //Hide/Show 'Buy Premium' button and show the message
-        axios.get("http://localhost:3000/premiumuser",{headers:{"Authorization": token}})
-    .then((result) =>{
-        if(result.data.ispremium == true){
-            const form = document.getElementById("rzp-button1")
-            form.style.display ='none'
-            document.getElementById('message').innerHTML =`${result.data.name} ~ You are a premium member`
-        }
-    })
-    .catch((err)=>{
-        console.log(err.meessage);
-    })
 
 })
 
@@ -124,8 +127,9 @@ document.getElementById('rzp-button1').onclick= async function (e){
             alert('you are now a premium user')
             const form = document.getElementById("rzp-button1")
             form.style.display ='none'
-            document.getElementById('message').innerHTML =`<h5>You are a premium user</h5>`
+            document.getElementById('ispremium').innerHTML =`<h5>You are a premium user</h5>  `
             localStorage.setItem('token',result.data.token)
+            //premiumfeature (result)
 
         }
     };
@@ -137,5 +141,41 @@ document.getElementById('rzp-button1').onclick= async function (e){
         alert('something wrong')
     });
 };
+
+async function premiumfeature (result){
+    const ispremium = document.getElementById('ispremium')
+    const leaderboardbutton = document.createElement('input')
+    leaderboardbutton.type = 'button'
+    leaderboardbutton.value = 'leaderboard'
+
+    leaderboardbutton.style.backgroundColor = 'red'
+    leaderboardbutton.style.color ='white'
+    leaderboardbutton.style.borderRadius ='5px'
+    
+    //when Mouse over the Delete Button
+    leaderboardbutton.addEventListener('mouseover',(e)=>{
+        leaderboardbutton.style.backgroundColor ='cyan';
+        leaderboardbutton.style.color ='red'
+    })
+
+    //when Mouse remove from Delete Button
+    leaderboardbutton.addEventListener('mouseout',(e)=>{
+        leaderboardbutton.style.backgroundColor ='red';
+        leaderboardbutton.style.color ='white'
+    })
+
+
+
+    leaderboardbutton.onclick = async() => {
+        const token = localStorage.getItem('token');
+        const userleaderboardArray = await axios.get('http://localhost:3000/premium/leaderboard',{headers:{'Authorization':token}})
+
+         const leaderboardElement = document.getElementById('leaderboard')
+        userleaderboardArray.data.forEach((ele)=> {
+            leaderboardElement.innerHTML = `<li>name : ${ele.name} - TotalExpence : ${ele.totalexpence}</li>`
+        })
+    }
+    ispremium.appendChild(leaderboardbutton)
+}
 
 
