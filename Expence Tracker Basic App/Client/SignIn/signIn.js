@@ -1,3 +1,6 @@
+
+
+
 async function myLogInFunc(event) {
     event.preventDefault();
     try{
@@ -19,7 +22,7 @@ async function myLogInFunc(event) {
             throw new Error(data.data.message)
         }
     }else{
-        alert("Please enter both username and Password")
+       // alert("Please enter both username and Password")
     }
     }
     catch(err){
@@ -27,5 +30,14 @@ async function myLogInFunc(event) {
         alert("Invalid Username and Password")
        // document.body.innerHTML += `<div style ="color:red">${err.message}</div>`
     }
+
+}
+
+
+// ------------------------------------------   Forget Password -------------------------------------------------------
+
+const forgetData = document.getElementById('forgotPassword')
+forgetData.onclick =async ()=> {
+    window.location.href ='../ForgetUserPassword/forgetPassword.html'
 
 }

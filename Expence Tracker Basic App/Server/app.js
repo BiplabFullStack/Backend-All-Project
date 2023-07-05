@@ -15,6 +15,7 @@ const signUpRouter=require('./Router/signUpRouter')
 const loginRouter = require('./Router/signInRouter')
 const purchase = require('./Router/purchase')
 const premiumUser = require('./Router/premiunuserRouter')
+const forgotpassword = require('./Router/forgetPasswordRoute')
 
 
 //--------------------------------------------------- Schema(Model) -------------------------------------------------------------
@@ -35,6 +36,7 @@ app.use(loginRouter)
 app.use(websiteRouter)
 app.use('/purchase',purchase)
 app.use('/premium',premiumUser)
+app.use('/password',forgotpassword)
 
 
 // -----------------------------------------------------  RelationShif ---------------------------------------------------------
@@ -66,3 +68,9 @@ app.use('/*',(req, res)=>{
     res.status(404)
     .send('<h1  style ="text-align: center;">Page Not Found !!!</h1>')
 })
+
+
+
+
+
+

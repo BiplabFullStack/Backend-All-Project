@@ -175,7 +175,6 @@ async function premiumfeature (result){
         userleaderboardArray.data.forEach((ele)=> {
             leaderboardElement.innerHTML += `<li style="color:yellow">Name : ${ele.name} - TotalExpence : ${ele.totalexpence}</li>`
         })
-        leaderboardbutton.style.display ='none'
         
     }
     ispremium.appendChild(leaderboardbutton)

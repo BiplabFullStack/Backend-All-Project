@@ -75,9 +75,9 @@ const getAllExpence = async (req, res, next) => {
 
 
 const deleteExpence = async (req, res, next) => {
+    const t = await sequelize.transaction()
     try {
         const userId = req.params.id;
-        const t = await sequelize.transaction()
         const getexpence = await User.findOne({where:{id:userId},transaction: t})
 
         
