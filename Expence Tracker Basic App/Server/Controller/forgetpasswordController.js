@@ -5,8 +5,6 @@ const { emailInValid } = require('../Validation/validation')
 const uuid = require('uuid')
 const signUp = require('../Model/signUpModel')
 const forgotPassword = require('../Model/forgetPasswordRequestModel')
-const path = require('path')
-const rootDir = require('../util/path');
 const { where } = require('sequelize');
 const bcrypt = require('bcrypt')
 
@@ -32,7 +30,7 @@ const forgotPasswordEmail = async (req, res, next) => {
     const user = await signUp.findOne({ where: { email: forgotUserEmail } })
     if (user) {
         const id = uuid.v4()
-        await forgotPassword.create({ id, active: true, UserId: user.id })
+        await forgotPassword.create({ id, active: true, signUpId: user.id })
 
         //console.log(req.body.email)
         const client = Sib.ApiClient.instance;
@@ -133,7 +131,7 @@ const updatePassword = async (req, res, next) => {
             bcrypt.hash(confirmpassword, 10, async (err, hash) => {
               // console.log(hash);
                 if (!err) {
-                    await signUp.update({ password: hash },{ where: { id: forgetPasswordDetails.UserId } })
+                    await signUp.update({ password: hash },{ where: { id: forgetPasswordDetails.signUpId } })
                     console.log("Your Password Update Successfully ");
                     res.status(201)
                     .send(`<html>

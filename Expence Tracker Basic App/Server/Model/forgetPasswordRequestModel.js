@@ -13,10 +13,7 @@ const forgotPasswordDb = sequelize.define('forgotPasswordDatabase',{
         type:datatype.BOOLEAN,
         allowNull:false
     },
-    UserId:{
-        type:datatype.INTEGER,
-        allowNull:false
-    },
+  
    expiresby:{
     type:datatype.DATE,
    }

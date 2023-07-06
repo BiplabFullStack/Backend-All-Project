@@ -16,7 +16,7 @@ const loginRouter = require('./Router/signInRouter')
 const purchase = require('./Router/purchase')
 const premiumUser = require('./Router/premiunuserRouter')
 const forgotpassword = require('./Router/forgetPasswordRoute')
-
+const ForgotpasswordModel = require('./Model/forgetPasswordRequestModel')
 
 //--------------------------------------------------- Schema(Model) -------------------------------------------------------------
 const User = require('./Model/signUpModel')
@@ -46,6 +46,9 @@ Expence.belongsTo(User)
 
 User.hasMany(Order)
 Order.belongsTo(User)
+
+User.hasMany(ForgotpasswordModel)
+ForgotpasswordModel.belongsTo(User)
 
 
 
