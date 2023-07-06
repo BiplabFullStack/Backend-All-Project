@@ -2,6 +2,7 @@ async function forgetPassword(event){
     try{
     event.preventDefault();
     const email = document.getElementById('email').value;
+    event.target.reset();
 
     const obj ={email}
 

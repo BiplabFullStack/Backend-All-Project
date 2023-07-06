@@ -38,6 +38,7 @@ const signUp = async (req, res) => {
 
         else {
             bcrypt.hash(password, 10, async(err, hash)=>{
+                console.log(hash);
                 if(!err){
                     await User.create({name,email,password:hash})
                     res.status(201)
