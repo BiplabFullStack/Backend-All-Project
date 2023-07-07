@@ -16,11 +16,11 @@ async function myWebFunc(event) {
         }
         if (itemName && expence && item && category) {
             const token = localStorage.getItem('token')
-            const postdata = await axios.post("http://localhost:3000/postwebdata", myObj, {headers:{"Authorization": token}})
-            
-                onScreenFunction(myObj);
-                
-                console.log(`ItemName : ${itemName} -  Expence : ${expence} - Item : ${item} - Category : ${category}`);
+            const postdata = await axios.post("http://localhost:3000/postwebdata", myObj, { headers: { "Authorization": token } })
+
+            onScreenFunction(myObj);
+
+            console.log(`ItemName : ${itemName} -  Expence : ${expence} - Item : ${item} - Category : ${category}`);
 
         } else {
             alert('Enter All the things please');
@@ -43,27 +43,27 @@ function onScreenFunction(myObj) {
     delBtn.value = 'Delete';
     delBtn.type = 'button';
     delBtn.style.backgroundColor = 'red'
-    delBtn.style.color ='white'
-    delBtn.style.borderRadius ='5px'
-    
+    delBtn.style.color = 'white'
+    delBtn.style.borderRadius = '5px'
+
     //when Mouse over the Delete Button
-    delBtn.addEventListener('mouseover',(e)=>{
-        delBtn.style.backgroundColor ='green';
+    delBtn.addEventListener('mouseover', (e) => {
+        delBtn.style.backgroundColor = 'green';
     })
 
     //when Mouse remove from Delete Button
-    delBtn.addEventListener('mouseout',(e)=>{
-        delBtn.style.backgroundColor ='red';
+    delBtn.addEventListener('mouseout', (e) => {
+        delBtn.style.backgroundColor = 'red';
     })
 
     delBtn.onclick = async () => {
-        if(confirm("Are you sure, want to cancel this expence ?")){
+        if (confirm("Are you sure, want to cancel this expence ?")) {
             const token = localStorage.getItem('token')
-        const deletedItem = await axios.delete(`http://localhost:3000/deletedata/${myObj.id}`,{headers:{"Authorization": token}})
+            const deletedItem = await axios.delete(`http://localhost:3000/deletedata/${myObj.id}`, { headers: { "Authorization": token } })
             ul.removeChild(li);
-            
+
         }
-        else{
+        else {
             console.log("Nothing");
         }
     }
@@ -75,26 +75,26 @@ function onScreenFunction(myObj) {
 
 }
 
-document.addEventListener('DOMContentLoaded',() => {
+document.addEventListener('DOMContentLoaded', () => {
     const token = localStorage.getItem('token')
-    axios.get("http://localhost:3000/premiumuser",{headers:{"Authorization": token}})
-    .then((result) =>{
-        if(result.data.ispremium == true){
-            const form = document.getElementById("rzp-button1")
-            form.style.display ='none'
-            document.getElementById('ispremium').innerHTML =`${result.data.name} ~ You are a premium member    `
-            premiumfeature (result)
-        }
-    })
-    .catch((err)=>{
-        console.log(err.meessage);
-    })
+    axios.get("http://localhost:3000/premiumuser", { headers: { "Authorization": token } })
+        .then((result) => {
+            if (result.data.ispremium == true) {
+                const form = document.getElementById("rzp-button1")
+                form.style.display = 'none'
+                document.getElementById('ispremium').innerHTML = `${result.data.name} ~ You are a premium member    `
+                premiumfeature(result)
+            }
+        })
+        .catch((err) => {
+            console.log(err.meessage);
+        })
 })
 
 document.addEventListener('DOMContentLoaded', () => {
     const token = localStorage.getItem('token')
 
-    axios.get("http://localhost:3000/getdata",{headers:{"Authorization": token}})
+    axios.get("http://localhost:3000/getdata", { headers: { "Authorization": token } })
         .then((response) => {
             response.data.forEach((element) => {
                 onScreenFunction(element)
@@ -110,74 +110,99 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-document.getElementById('rzp-button1').onclick= async function (e){
+document.getElementById('rzp-button1').onclick = async function (e) {
     const token = localStorage.getItem('token');
     console.log(token)
-    const response = await axios.get('http://localhost:3000/purchase/premiummembership',{headers:{'Authorization':token}})
+    const response = await axios.get('http://localhost:3000/purchase/premiummembership', { headers: { 'Authorization': token } })
     console.log(response);
-    var options={
-        "key":response.data.key_id,
+    var options = {
+        "key": response.data.key_id,
         "order_id": response.data.order.id,
-        "handler":async function (response){
-            const result = await axios.post('http://localhost:3000/purchase/updatetransactionstatus',{
-                order_id:options.order_id,
-                payment_id:response.razorpay_payment_id,
-            },{headers:{'Authorization':token}})
+        "handler": async function (response) {
+            const result = await axios.post('http://localhost:3000/purchase/updatetransactionstatus', {
+                order_id: options.order_id,
+                payment_id: response.razorpay_payment_id,
+            }, { headers: { 'Authorization': token } })
 
             alert('you are now a premium user')
             const form = document.getElementById("rzp-button1")
-            form.style.display ='none'
-            document.getElementById('ispremium').innerHTML =`<h5>You are a premium user</h5>  `
-            localStorage.setItem('token',result.data.token)
+            form.style.display = 'none'
+            document.getElementById('ispremium').innerHTML = `<h5>You are a premium user</h5>  `
+            localStorage.setItem('token', result.data.token)
             //premiumfeature (result)
 
         }
     };
-    const rzp1=new Razorpay(options);
+    const rzp1 = new Razorpay(options);
     rzp1.open();
     e.preventDefault();
-    rzp1.on('payment.failed',function(response){
+    rzp1.on('payment.failed', function (response) {
         console.log(response);
         alert('something wrong')
     });
 };
 
-async function premiumfeature (result){
+async function premiumfeature(result) {
     const ispremium = document.getElementById('ispremium')
     const leaderboardbutton = document.createElement('input')
     leaderboardbutton.type = 'button'
     leaderboardbutton.value = 'leaderboard'
 
     leaderboardbutton.style.backgroundColor = 'red'
-    leaderboardbutton.style.color ='white'
-    leaderboardbutton.style.borderRadius ='5px'
-    
+    leaderboardbutton.style.color = 'white'
+    leaderboardbutton.style.borderRadius = '5px'
+
     //when Mouse over the Delete Button
-    leaderboardbutton.addEventListener('mouseover',(e)=>{
-        leaderboardbutton.style.backgroundColor ='cyan';
-        leaderboardbutton.style.color ='red'
+    leaderboardbutton.addEventListener('mouseover', (e) => {
+        leaderboardbutton.style.backgroundColor = 'cyan';
+        leaderboardbutton.style.color = 'red'
     })
 
     //when Mouse remove from Delete Button
-    leaderboardbutton.addEventListener('mouseout',(e)=>{
-        leaderboardbutton.style.backgroundColor ='red';
-        leaderboardbutton.style.color ='white'
+    leaderboardbutton.addEventListener('mouseout', (e) => {
+        leaderboardbutton.style.backgroundColor = 'red';
+        leaderboardbutton.style.color = 'white'
     })
 
 
 
-    leaderboardbutton.onclick = async() => {
+    leaderboardbutton.onclick = async () => {
         const token = localStorage.getItem('token');
-        const userleaderboardArray = await axios.get('http://localhost:3000/premium/leaderboard',{headers:{'Authorization':token}})
+        const userleaderboardArray = await axios.get('http://localhost:3000/premium/leaderboard', { headers: { 'Authorization': token } })
 
-         const leaderboardElement = document.getElementById('leaderboard')
-         leaderboardElement.innerHTML = '<h2 style="color:red">Leader Board</h2>'
-        userleaderboardArray.data.forEach((ele)=> {
+        const leaderboardElement = document.getElementById('leaderboard')
+        leaderboardElement.innerHTML = '<h2 style="color:red">Leader Board</h2>'
+        userleaderboardArray.data.forEach((ele) => {
             leaderboardElement.innerHTML += `<li style="color:yellow">Name : ${ele.name} - TotalExpence : ${ele.totalexpence}</li>`
         })
-        
+
+    }
+    // ispremium.appendChild(leaderboardbutton)
+
+
+    const downloadExpence = document.createElement('input');
+    downloadExpence.type = 'button'
+    downloadExpence.value = 'Download List'
+    downloadExpence.onclick = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const file = await axios.get('http://localhost:3000/premium/download', { headers: { 'Authorization': token } })
+            if (file.status === 200) {
+                const a = document.createElement('a');
+                a.href = file.data.fileUrl;
+                a.download = 'myexpence.csv';
+                a.click()
+            } else {
+                throw new Error(file.data.message)
+            }
+        }
+        catch (err) {
+            console.log(err.message);
+        }
+
     }
     ispremium.appendChild(leaderboardbutton)
+    ispremium.appendChild(downloadExpence)
 }
 
 
