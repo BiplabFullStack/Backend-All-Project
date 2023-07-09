@@ -91,21 +91,109 @@ document.addEventListener('DOMContentLoaded', () => {
         })
 })
 
-document.addEventListener('DOMContentLoaded', () => {
-    const token = localStorage.getItem('token')
+// document.addEventListener('DOMContentLoaded', () => {
+//     const token = localStorage.getItem('token')
 
-    axios.get("http://localhost:3000/getdata", { headers: { "Authorization": token } })
-        .then((response) => {
-            response.data.forEach((element) => {
-                onScreenFunction(element)
-            })
-        })
-        .catch((err) => {
-            console.log(err.message)
-        })
+//     axios.get("http://localhost:3000/getdata", { headers: { "Authorization": token } })
+//         .then((response) => {
+//             response.data.forEach((element) => {
+//                 onScreenFunction(element)
+//             })
+//         })
+//         .catch((err) => {
+//             console.log(err.message)
+//         })
+
+
+// })
+//--------------------------------------------------------------------------------------------------------------------
+
+window.addEventListener('DOMContentLoaded', async () => {
+    const objUrlParams = new URLSearchParams(window.location.search);
+    const page = objUrlParams.get('page') || 1;
+    console.log('objUrlParams', objUrlParams);
+    console.log('page', page)
+    const token = localStorage.getItem('token')
+    let detail = await axios.get(`http://localhost:3000/getdata?page=${page}`, { headers: { 'Authorization': token } }).then(({ data: { expence, ...PageData } }) => {
+        console.log("Expences " + expence);
+        console.log("PageData" + PageData);
+        for (let i = 0; i < expence.length; i++) {
+
+
+            onScreenFunction(expence[i])
+        }
+
+        showpagination(PageData);
+    }).catch(err => {
+        console.log(err);
+    })
 
 
 })
+const pagination = document.getElementById('pagination')
+
+async function showpagination({
+    currentPage,
+    hasNextPage,
+    nextPage,
+    hasPreviousPage,
+    previousPage,
+    lastPage }) {
+
+    pagination.innerHTML = ''
+    console.log(previousPage, currentPage, nextPage)
+    if (hasPreviousPage) {
+        const btn2 = document.createElement('button');
+        btn2.innerHTML = previousPage;
+        btn2.addEventListener('click', () => {
+
+            document.getElementById("listOnScreen").innerHTML = "";
+            getExpence(previousPage)
+        });
+
+        pagination.appendChild(btn2);
+    }
+    const btn1 = document.createElement('button');
+    btn1.innerHTML = `<h3>${currentPage}</h3>`;
+    btn1.addEventListener('click', () => {
+        document.getElementById("listOnScreen").innerHTML = "";
+        getExpence(currentPage)
+    });
+
+    pagination.appendChild(btn1);
+
+    if (hasNextPage && nextPage <= lastPage) {
+        const btn3 = document.createElement('button');
+        btn3.innerHTML = nextPage;
+        btn3.addEventListener('click', () => {
+            document.getElementById("listOnScreen").innerHTML = "";
+            getExpence(nextPage)
+        });
+
+        pagination.appendChild(btn3);
+    }
+}
+
+
+
+
+
+async function getExpence(page) {
+    console.log(page)
+    const token = localStorage.getItem('token')
+    await axios.get(`http://localhost:3000/getdata?page=${page}`, { headers: { 'Authorization': token } }).then(({ data: { expence, ...PageData } }) => {
+        // console.log(expence);
+        for (let i = 0; i < expence.length; i++) {
+            onScreenFunction(expence[i])
+        }
+        showpagination(PageData);
+    }).catch(err => {
+        console.log(err);
+    })
+}
+
+
+//--------------------------------------------------------------------------------------------------------------------
 
 
 

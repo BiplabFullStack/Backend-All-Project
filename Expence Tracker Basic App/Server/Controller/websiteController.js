@@ -51,20 +51,46 @@ const postAddExpence = async (req, res, next) => {
 
 
 // ---------------------------------------------------------- Get All Orders ----------------------------------------------------------------------
+const ITEMS_PER_PAGE=4;
+const getAllExpence=async(req,res,next)=>{
+    //console.log(req.user.id)
+    let page=Number(req.query.page) || 1;
+    
+    let totalItems;
+    await User.count({where:{signUpId:req.user.id}}).then((total)=>{
+        //console.log(total);
+        totalItems=total;
+        return User.findAll({
+            offset:(page-1)*4,
+            limit:ITEMS_PER_PAGE,
+            where:{signUpId:req.user.id}
+        });
+    }).then((expence)=>{
+        res.json({
+            expence:expence,
+            currentPage:page,
+            hasNextPage:ITEMS_PER_PAGE*page<totalItems,
+            nextPage:page+1,
+            hasPreviousPage:page>1,
+            previousPage:page-1,
+            lastPage:Math.ceil(totalItems/ITEMS_PER_PAGE)
+        })
+    }).catch(err=>console.log(err))
 
-
-const getAllExpence = async (req, res, next) => {
-    try {
-        const allData = await User.findAll(); //Get Only raw Data
-        //{where:{signUpId: req.user.id}}
-        res.json(allData);
-    }
-    catch (err) {
-        res.status(500)
-            .send({ Success: false, Error: err.message })
-        console.log(chalk.red(err.message));
-    }
 }
+
+// const getAllExpence = async (req, res, next) => {
+//     try {
+//         const allData = await User.findAll(); //Get Only raw Data
+//         //{where:{signUpId: req.user.id}}
+//         res.json(allData);
+//     }
+//     catch (err) {
+//         res.status(500)
+//             .send({ Success: false, Error: err.message })
+//         console.log(chalk.red(err.message));
+//     }
+// }
 
 
 
