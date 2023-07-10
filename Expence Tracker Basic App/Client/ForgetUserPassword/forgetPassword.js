@@ -1,7 +1,7 @@
 async function forgetPassword(event){
     try{
     event.preventDefault();
-    const email = document.getElementById('email').value;
+    const email = document.getElementById('email').value;  // Collect user input email from forget password page
     event.target.reset();
 
     const obj ={email}
@@ -10,7 +10,7 @@ async function forgetPassword(event){
     
     if(password.status === 201){
         alert(password.data.message)
-        window.location.href = '../SignIn/signIn.html'
+        window.location.href = '../SignIn/signIn.html'  //Go to the  Signin page
     }
     else{
         alert("Enter Valid Email")

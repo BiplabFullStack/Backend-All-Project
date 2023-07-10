@@ -7,7 +7,7 @@ const sequelize = require('../Database/database')
 const signUpdb = require('../Model/signUpModel')
 
 
-// ---------------------------------------------------------- Post Order ----------------------------------------------------------------------
+// ---------------------------------------------------------- Post Expence ----------------------------------------------------------------------
 
 const postAddExpence = async (req, res, next) => {
     const t = await sequelize.transaction()
@@ -50,7 +50,7 @@ const postAddExpence = async (req, res, next) => {
 
 
 
-// ---------------------------------------------------------- Get All Orders ----------------------------------------------------------------------
+// ---------------------------------------------------------- Get All Expence ----------------------------------------------------------------------
 //const ITEMS_PER_PAGE=4;
 const getAllExpence=async(req,res,next)=>{
     const ITEMS_PER_PAGE = Number(req.query.ITEM_PER_PAGE)
@@ -98,7 +98,7 @@ const getAllExpence=async(req,res,next)=>{
 
 
 
-// // ---------------------------------------------------------- Delete Order ----------------------------------------------------------------------
+// // ---------------------------------------------------------- Delete Expence ----------------------------------------------------------------------
 
 
 const deleteExpence = async (req, res, next) => {

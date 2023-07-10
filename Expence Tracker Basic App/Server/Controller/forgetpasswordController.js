@@ -9,7 +9,7 @@ const { where } = require('sequelize');
 const bcrypt = require('bcrypt')
 
 
-
+//---------------------------------------------  Send mail to register Email -------------------------------------------------------
 
 const client = Sib.ApiClient.instance;
 
@@ -75,7 +75,7 @@ const forgotPasswordEmail = async (req, res, next) => {
 
 
 
-
+//---------------------------------------------  Reset Password -------------------------------------------------------
 
 const resetpassword = async (req, res, next) => {
     try {
@@ -116,7 +116,7 @@ const resetpassword = async (req, res, next) => {
 
 
 
-
+//---------------------------------------------  Update Password -------------------------------------------------------
 
 const updatePassword = async (req, res, next) => {
     try {

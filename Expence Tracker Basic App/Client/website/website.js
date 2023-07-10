@@ -1,9 +1,8 @@
-
-
-
+//---------------------------------------------  Post allData into Backend -------------------------------------------------------
 async function myWebFunc(event) {
     try {
         event.preventDefault();
+        //Collect All the data from the page
         const itemName = document.getElementById('itemName').value;
         const expence = document.getElementById('expence').value;
         const item = document.getElementById('item').value;
@@ -23,7 +22,7 @@ async function myWebFunc(event) {
 
             onScreenFunction(myObj);
 
-            console.log(`ItemName : ${itemName} -  Expence : ${expence} - Item : ${item} - Category : ${category}`);
+           // console.log(`ItemName : ${itemName} -  Expence : ${expence} - Item : ${item} - Category : ${category}`);
 
         } else {
             alert('Enter All the things please');
@@ -34,9 +33,14 @@ async function myWebFunc(event) {
     }
 }
 
+
+
+
+
+//---------------------------------------------  Show on the Page -------------------------------------------------------
+
 function onScreenFunction(myObj) {
     const ul = document.getElementById('listOnScreen');
-
 
     const li = document.createElement('li');
     li.innerHTML = `ItemName : ${myObj.itemName}  -  Expence : ${myObj.expence} - Item : ${myObj.item} -  Category : ${myObj.category}   `;
@@ -47,7 +51,7 @@ function onScreenFunction(myObj) {
     delBtn.type = 'button';
     delBtn.style.backgroundColor = 'red'
     delBtn.style.color = 'white'
-    delBtn.style.borderRadius = '5px'
+    delBtn.style.borderRadius = '8px'
 
     //when Mouse over the Delete Button
     delBtn.addEventListener('mouseover', (e) => {
@@ -77,6 +81,11 @@ function onScreenFunction(myObj) {
     ul.appendChild(li);
 
 }
+
+
+
+
+//---------------------------------------------  Show Only for Premium User -------------------------------------------------------
 
 document.addEventListener('DOMContentLoaded', () => {
     const token = localStorage.getItem('token')
@@ -109,23 +118,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 // })
-//--------------------------------------------------------------------------------------------------------------------
+
+//---------------------------------------------  Show all Expence With Pagination -------------------------------------------------------
 
 window.addEventListener('DOMContentLoaded', async () => {
     const objUrlParams = new URLSearchParams(window.location.search);
 
     const page = objUrlParams.get('page') || 1;
-    console.log('objUrlParams', objUrlParams);
-    console.log('page', page)
+    //console.log('objUrlParams', objUrlParams);
+   // console.log('page', page)
     const token = localStorage.getItem('token')
-    const setData = Number(document.getElementById('datashowno').value);
-    localStorage.setItem('itemNo',setData)
+    // const setData = Number(document.getElementById('datashowno').value);
+    // localStorage.setItem('itemNo',setData)
     const finalItemNo = localStorage.getItem('itemNo')
     let detail = await axios.get(`http://localhost:3000/getdata?page=${page}`, { headers: { 'Authorization': token },params:{ITEM_PER_PAGE:finalItemNo} }).then(({ data: { expence, ...PageData } }) => {
         console.log("Expences " + expence);
         console.log("PageData" + PageData);
         for (let i = 0; i < expence.length; i++) {
-
 
             onScreenFunction(expence[i])
         }
@@ -137,6 +146,10 @@ window.addEventListener('DOMContentLoaded', async () => {
 
 
 })
+
+
+//---------------------------------------------  Show Page Number On the Page -------------------------------------------------------
+
 const pagination = document.getElementById('pagination')
 
 async function showpagination({
@@ -148,7 +161,7 @@ async function showpagination({
     lastPage }) {
 
     pagination.innerHTML = ''
-    console.log(previousPage, currentPage, nextPage)
+   // console.log(previousPage, currentPage, nextPage)
     if (hasPreviousPage) {
         const btn2 = document.createElement('button');
         btn2.innerHTML = previousPage;
@@ -183,7 +196,7 @@ async function showpagination({
 
 
 
-
+//---------------------------------------------  Get Expence From Backend -------------------------------------------------------
 
 async function getExpence(page) {
     console.log(page)
@@ -201,10 +214,8 @@ async function getExpence(page) {
 }
 
 
-//--------------------------------------------------------------------------------------------------------------------
 
-
-
+//---------------------------------------------  Payment  -------------------------------------------------------
 
 document.getElementById('rzp-button1').onclick = async function (e) {
     const token = localStorage.getItem('token');
@@ -237,6 +248,10 @@ document.getElementById('rzp-button1').onclick = async function (e) {
         alert('something wrong')
     });
 };
+
+
+
+//----------------------------------------  Show Leader-Board Button Only for Premum Users-------------------------------------------------------
 
 async function premiumfeature(result) {
     const ispremium = document.getElementById('ispremium')
@@ -276,6 +291,8 @@ async function premiumfeature(result) {
     // ispremium.appendChild(leaderboardbutton)
 
 
+//---------------------------------------------  Download Expence -------------------------------------------------------
+
     const downloadExpence = document.createElement('input');
     downloadExpence.type = 'button'
     downloadExpence.value = 'Download List'
@@ -301,7 +318,10 @@ async function premiumfeature(result) {
     ispremium.appendChild(downloadExpence)
 }
 
-//How many data you want to print
+
+
+//---------------------------------------------  How many Expence want to show  -------------------------------------------------------
+
 async function datashow(event){
     event.preventDefault()
     const setData = Number(document.getElementById('datashowno').value);

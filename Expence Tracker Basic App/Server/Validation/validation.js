@@ -1,5 +1,6 @@
 
 const User = require('../Model/signUpModel')
+
 //------------------------------------------------  Name Validation ----------------------------------------------------------
 
 const nameInValid = (name) => {
