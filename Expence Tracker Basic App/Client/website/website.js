@@ -1,3 +1,6 @@
+
+
+
 async function myWebFunc(event) {
     try {
         event.preventDefault();
@@ -110,11 +113,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
 window.addEventListener('DOMContentLoaded', async () => {
     const objUrlParams = new URLSearchParams(window.location.search);
+
     const page = objUrlParams.get('page') || 1;
     console.log('objUrlParams', objUrlParams);
     console.log('page', page)
     const token = localStorage.getItem('token')
-    let detail = await axios.get(`http://localhost:3000/getdata?page=${page}`, { headers: { 'Authorization': token } }).then(({ data: { expence, ...PageData } }) => {
+    const setData = Number(document.getElementById('datashowno').value);
+    localStorage.setItem('itemNo',setData)
+    const finalItemNo = localStorage.getItem('itemNo')
+    let detail = await axios.get(`http://localhost:3000/getdata?page=${page}`, { headers: { 'Authorization': token },params:{ITEM_PER_PAGE:finalItemNo} }).then(({ data: { expence, ...PageData } }) => {
         console.log("Expences " + expence);
         console.log("PageData" + PageData);
         for (let i = 0; i < expence.length; i++) {
@@ -181,7 +188,8 @@ async function showpagination({
 async function getExpence(page) {
     console.log(page)
     const token = localStorage.getItem('token')
-    await axios.get(`http://localhost:3000/getdata?page=${page}`, { headers: { 'Authorization': token } }).then(({ data: { expence, ...PageData } }) => {
+    const finalItemNo = localStorage.getItem('itemNo')
+    await axios.get(`http://localhost:3000/getdata?page=${page}`, { headers: { 'Authorization': token },params:{ITEM_PER_PAGE:finalItemNo}}).then(({ data: { expence, ...PageData } }) => {
         // console.log(expence);
         for (let i = 0; i < expence.length; i++) {
             onScreenFunction(expence[i])
@@ -217,7 +225,7 @@ document.getElementById('rzp-button1').onclick = async function (e) {
             form.style.display = 'none'
             document.getElementById('ispremium').innerHTML = `<h5>You are a premium user</h5>  `
             localStorage.setItem('token', result.data.token)
-            //premiumfeature (result)
+             premiumfeature (result)
 
         }
     };
@@ -291,6 +299,13 @@ async function premiumfeature(result) {
     }
     ispremium.appendChild(leaderboardbutton)
     ispremium.appendChild(downloadExpence)
+}
+
+//How many data you want to print
+async function datashow(event){
+    event.preventDefault()
+    const setData = Number(document.getElementById('datashowno').value);
+    localStorage.setItem('itemNo',setData)
 }
 
 

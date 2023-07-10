@@ -62,6 +62,18 @@
   .btn:hover {
     background: #cfe465;
   }
+  #dataShowbtn{
+    color: white;
+    background-color: black;
+    border-radius: 10px;
+    
+  }
+  #dataShowbtn:hover{
+    background: #9ab3f7;
+  }
+  #datashowno{
+    color: #e89898;
+  }
   
   
 

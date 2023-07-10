@@ -51,8 +51,9 @@ const postAddExpence = async (req, res, next) => {
 
 
 // ---------------------------------------------------------- Get All Orders ----------------------------------------------------------------------
-const ITEMS_PER_PAGE=4;
+//const ITEMS_PER_PAGE=4;
 const getAllExpence=async(req,res,next)=>{
+    const ITEMS_PER_PAGE = Number(req.query.ITEM_PER_PAGE)
     //console.log(req.user.id)
     let page=Number(req.query.page) || 1;
     
@@ -61,7 +62,7 @@ const getAllExpence=async(req,res,next)=>{
         //console.log(total);
         totalItems=total;
         return User.findAll({
-            offset:(page-1)*4,
+            offset:(page-1)*ITEMS_PER_PAGE,
             limit:ITEMS_PER_PAGE,
             where:{signUpId:req.user.id}
         });
@@ -140,4 +141,3 @@ const deleteExpence = async (req, res, next) => {
 // ---------------------------------------------------------- EXPORTS ----------------------------------------------------------------------
 
 module.exports = { postAddExpence, getAllExpence, deleteExpence }
-
