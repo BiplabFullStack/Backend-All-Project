@@ -1,14 +1,23 @@
 
-//--------------------------------------------------  Dependencies  -----------------------------------------------------------
+//-------------------------------------------------- Import Dependencies  -----------------------------------------------------------
+
 const express=require('express');
 const bodyParser=require('body-parser');
 const sequelize=require('./Database/database');
 const cors=require('cors');
 const chalk = require('chalk')
+const helmet = require('helmet')
+const compression = require('compression')
+var path = require('path')
+const fs = require('fs')
+const morgan = require('morgan')
+require('dotenv').config();
 
 
 
-//-----------------------------------------------------  Router  ------------------------------------------------------------------
+
+
+//----------------------------------------------------- Import Router  ------------------------------------------------------------------
 
 const websiteRouter = require('./Router/websiteRoute')
 const signUpRouter=require('./Router/signUpRouter')
@@ -18,18 +27,31 @@ const premiumUser = require('./Router/premiunuserRouter')
 const forgotpassword = require('./Router/forgetPasswordRoute')
 const ForgotpasswordModel = require('./Model/forgetPasswordRequestModel')
 
+
+
+
 //--------------------------------------------------- Schema(Model) -------------------------------------------------------------
+
 const User = require('./Model/signUpModel')
 const Expence = require('./Model/websiteModel')
 const Order = require('./Model/purchase')
 
 
-//App
+
+//--------------------------------------------------- Execute NPM package -------------------------------------------------------------
+
 const app=express();
 app.use(bodyParser.json());
 app.use(cors());
+app.use(helmet())  //Bydefault set extra header for security purpose
+app.use(compression())   //Reduce the file size
+const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
+app.use(morgan('combined', { stream: accessLogStream }))
 
 
+
+
+//--------------------------------------------------- Execute Router -------------------------------------------------------------
 
 app.use(signUpRouter)
 app.use(loginRouter)
@@ -39,7 +61,9 @@ app.use('/premium',premiumUser)
 app.use('/password',forgotpassword)
 
 
-// -----------------------------------------------------  RelationShif ---------------------------------------------------------
+
+
+//-----------------------------------------------------  RelationShif ---------------------------------------------------------
 
 User.hasMany(Expence)
 Expence.belongsTo(User)
@@ -56,8 +80,8 @@ ForgotpasswordModel.belongsTo(User)
 
 sequelize.sync().then(result=>{
     console.log(chalk.green.inverse('Database Connected ....'))
-    app.listen(3000,()=>{
-        console.log(chalk.magenta.inverse( `Server running on port 3000 `));
+    app.listen(process.env.PORT,()=>{
+        console.log(chalk.magenta.inverse( `Server running on port ${process.env.PORT} `));
     });
 }).catch(err=>{
     console.log(chalk.red(err.message));
