@@ -1,5 +1,5 @@
 const Sib = require('sib-api-v3-sdk');
-require('dotenv').config();
+
 const chalk = require('chalk')
 const { emailInValid } = require('../Validation/validation')
 const uuid = require('uuid')

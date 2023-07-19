@@ -2,7 +2,6 @@ const Rozarpay=require('razorpay');
 
 const Order=require('../Model/purchase');
 
-const env = require('dotenv').config();
 const { generateAccessToken } = require('../Controller/signInController')
 
 

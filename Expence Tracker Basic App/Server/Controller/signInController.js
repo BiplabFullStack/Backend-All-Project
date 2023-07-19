@@ -2,7 +2,7 @@ const User = require('../Model/signUpModel')
 const bcrypt = require('bcrypt')
 const chalk = require('chalk')
  const jwt=require('jsonwebtoken');
-const env = require('dotenv').config();
+
 const { emailInValid, passwordInValid } = require('../Validation/validation')
 
 
