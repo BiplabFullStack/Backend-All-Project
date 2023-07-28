@@ -1,4 +1,4 @@
-const User = require('../Model/signUpModel')
+const User = require('../Model/signUp')
 const bcrypt = require('bcrypt')
 const chalk = require('chalk')
 const { nameInValid, emailInValid, passwordInValid } = require('../Validation/validation')
@@ -30,12 +30,8 @@ const signUp = async (req, res) => {
              res
                 .status(409)
                 .json({ status: false, err: "Email already exist" })
-                console.log(res.statusCode);
-               
+                console.log(res.statusCode);   
         }
-
-
-
         else {
             bcrypt.hash(password, 10, async(err, hash)=>{
                 console.log(hash);

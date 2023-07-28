@@ -52,6 +52,7 @@ function onScreenFunction(myObj) {
     delBtn.style.backgroundColor = 'red'
     delBtn.style.color = 'white'
     delBtn.style.borderRadius = '8px'
+    
 
     //when Mouse over the Delete Button
     delBtn.addEventListener('mouseover', (e) => {
@@ -103,21 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
         })
 })
 
-// document.addEventListener('DOMContentLoaded', () => {
-//     const token = localStorage.getItem('token')
 
-//     axios.get("http://localhost:3000/getdata", { headers: { "Authorization": token } })
-//         .then((response) => {
-//             response.data.forEach((element) => {
-//                 onScreenFunction(element)
-//             })
-//         })
-//         .catch((err) => {
-//             console.log(err.message)
-//         })
-
-
-// })
 
 //---------------------------------------------  Show all Expence With Pagination -------------------------------------------------------
 
@@ -235,7 +222,7 @@ document.getElementById('rzp-button1').onclick = async function (e) {
             const form = document.getElementById("rzp-button1")
             form.style.display = 'none'
             document.getElementById('ispremium').innerHTML = `<h5>You are a premium user</h5>  `
-            localStorage.setItem('token', result.data.token)
+            localStorage.setItem('token', result.data.token)  //set new token
              premiumfeature (result)
 
         }
@@ -262,6 +249,7 @@ async function premiumfeature(result) {
     leaderboardbutton.style.backgroundColor = 'red'
     leaderboardbutton.style.color = 'white'
     leaderboardbutton.style.borderRadius = '5px'
+
 
     //when Mouse over the Delete Button
     leaderboardbutton.addEventListener('mouseover', (e) => {
@@ -296,13 +284,33 @@ async function premiumfeature(result) {
     const downloadExpence = document.createElement('input');
     downloadExpence.type = 'button'
     downloadExpence.value = 'Download List'
+
+    downloadExpence.style.backgroundColor = 'green'
+    downloadExpence.style.color = 'white'
+    downloadExpence.style.borderRadius ='5px';
+
+      //when Mouse over the downloadExpence Button
+      downloadExpence.addEventListener('mouseover', (e) => {
+        downloadExpence.style.backgroundColor = 'cyan';
+        downloadExpence.style.color = 'red'
+    })
+
+    //when Mouse remove from downloadExpence Button
+    downloadExpence.addEventListener('mouseout', (e) => {
+        downloadExpence.style.backgroundColor = 'green';
+        downloadExpence.style.color = 'white'
+    })
+
+
     downloadExpence.onclick = async () => {
         try {
             const token = localStorage.getItem('token');
             const file = await axios.get('http://localhost:3000/premium/download', { headers: { 'Authorization': token } })
+        
+          // console.log(file.data.fileURl);
             if (file.status === 200) {
                 const a = document.createElement('a');
-                a.href = file.data.fileUrl;
+                a.href = file.data.fileURl;
                 a.download = 'myexpence.csv';
                 a.click()
             } else {

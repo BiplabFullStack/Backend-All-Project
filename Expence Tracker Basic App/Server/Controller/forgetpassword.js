@@ -3,8 +3,8 @@ const Sib = require('sib-api-v3-sdk');
 const chalk = require('chalk')
 const { emailInValid } = require('../Validation/validation')
 const uuid = require('uuid')
-const signUp = require('../Model/signUpModel')
-const forgotPassword = require('../Model/forgetPasswordRequestModel')
+const signUp = require('../Model/signUp')
+const forgotPassword = require('../Model/forgetPassword')
 const { where } = require('sequelize');
 const bcrypt = require('bcrypt')
 

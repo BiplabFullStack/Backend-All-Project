@@ -1,10 +1,10 @@
 
 const { where } = require('sequelize');
 const chalk = require("chalk");
-const User = require('../Model/websiteModel')
+const Expence = require('../Model/expense')
 const { nameInValid, passwordInValid } = require('../Validation/validation')
 const sequelize = require('../Database/database')
-const signUpdb = require('../Model/signUpModel')
+const signUpdb = require('../Model/signUp')
 
 
 // ---------------------------------------------------------- Post Expence ----------------------------------------------------------------------
@@ -19,7 +19,7 @@ const postAddExpence = async (req, res, next) => {
                 .status(400)
                 .json({ Success: false, err: 'Something went wrong' })
         }
-        const data = await User.create({
+        const data = await Expence.create({
             itemName,
             expence,
             item,
@@ -55,13 +55,13 @@ const postAddExpence = async (req, res, next) => {
 const getAllExpence=async(req,res,next)=>{
     const ITEMS_PER_PAGE = Number(req.query.ITEM_PER_PAGE)
     //console.log(req.user.id)
-    let page=Number(req.query.page) || 1;
+    let page= Number(req.query.page) ||1;
     
     let totalItems;
-    await User.count({where:{signUpId:req.user.id}}).then((total)=>{
+    await Expence.count({where:{signUpId:req.user.id}}).then((total)=>{
         //console.log(total);
         totalItems=total;
-        return User.findAll({
+        return Expence.findAll({
             offset:(page-1)*ITEMS_PER_PAGE,
             limit:ITEMS_PER_PAGE,
             where:{signUpId:req.user.id}
@@ -82,7 +82,7 @@ const getAllExpence=async(req,res,next)=>{
 
 // const getAllExpence = async (req, res, next) => {
 //     try {
-//         const allData = await User.findAll(); //Get Only raw Data
+//         const allData = await Expence.findAll(); //Get Only raw Data
 //         //{where:{signUpId: req.user.id}}
 //         res.json(allData);
 //     }
@@ -105,10 +105,10 @@ const deleteExpence = async (req, res, next) => {
     const t = await sequelize.transaction()
     try {
         const userId = req.params.id;
-        const getexpence = await User.findOne({where:{id:userId},transaction: t})
+        const getexpence = await Expence.findOne({where:{id:userId},transaction: t})
 
         
-        const deletedData = await User.destroy({
+        const deletedData = await Expence.destroy({
             where: {
                 id: userId,
                 signUpId: req.user.id

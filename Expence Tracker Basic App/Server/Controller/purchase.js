@@ -2,7 +2,7 @@ const Rozarpay=require('razorpay');
 
 const Order=require('../Model/purchase');
 
-const { generateAccessToken } = require('../Controller/signInController')
+const { generateAccessToken } = require('./signIn')
 
 
 const purchasepremium=async(req,res,next)=>{
@@ -18,7 +18,7 @@ const purchasepremium=async(req,res,next)=>{
             if(err){
                 throw new Error(JSON.stringify(err));
             }
-            req.user.createOrder({orderid:order.id,status:'PENDING'}).then(()=>{
+            req.user.createOrder({orderid:order.id,status:'PENDING'}).then(()=>{  //User create a order
                 return res.status(201).json({order,key_id:rzp.key_id})
             }).catch(err=>{
                 throw new Error(err)

@@ -1,5 +1,5 @@
 
-const User = require('../Model/signUpModel')
+const User = require('../Model/signUp')
 
 //------------------------------------------------  Name Validation ----------------------------------------------------------
 

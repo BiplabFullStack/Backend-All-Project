@@ -25,21 +25,22 @@ const fs = require('fs')
 
 //----------------------------------------------------- Import Router  ------------------------------------------------------------------
 
-const websiteRouter = require('./Router/websiteRoute')
-const signUpRouter=require('./Router/signUpRouter')
-const loginRouter = require('./Router/signInRouter')
+const expenceRouter = require('./Router/expense')
+const signUpRouter=require('./Router/signUp')
+const loginRouter = require('./Router/signIn')
 const purchase = require('./Router/purchase')
-const premiumUser = require('./Router/premiunuserRouter')
-const forgotpassword = require('./Router/forgetPasswordRoute')
-const ForgotpasswordModel = require('./Model/forgetPasswordRequestModel')
+const premiumUser = require('./Router/premiunuser')
+const forgotpassword = require('./Router/forgetPassword')
+const ForgotpasswordModel = require('./Model/forgetPassword')
+const UrlModule=require('./Model/urlDownload')
 
 
 
 
 //--------------------------------------------------- Schema(Model) -------------------------------------------------------------
 
-const User = require('./Model/signUpModel')
-const Expence = require('./Model/websiteModel')
+const User = require('./Model/signUp')
+const Expence = require('./Model/expense')
 const Order = require('./Model/purchase')
 
 
@@ -67,7 +68,7 @@ app.use(morgan('combined', { stream: accessLogStream }))
 
 app.use(signUpRouter)
 app.use(loginRouter)
-app.use(websiteRouter)
+app.use(expenceRouter)
 app.use('/purchase',purchase)
 app.use('/premium',premiumUser)
 app.use('/password',forgotpassword)
@@ -95,6 +96,9 @@ Order.belongsTo(User)
 
 User.hasMany(ForgotpasswordModel)
 ForgotpasswordModel.belongsTo(User)
+
+User.hasMany(UrlModule);
+UrlModule.belongsTo(User);
 
 
 

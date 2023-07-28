@@ -16,7 +16,7 @@ async function myLogInFunc(event) {
             if (data.status === 200) {
                 alert("Login Successfully")
                 localStorage.setItem('token', data.data.token)
-                window.location.href = '../website/website.html';  // Go to the Expence Tracker Main page 
+                window.location.href = '../website/expense.html';  // Go to the Expence Tracker Main page 
             }
             else {
                 throw new Error(data.data.message)
